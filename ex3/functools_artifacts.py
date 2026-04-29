@@ -38,5 +38,14 @@ def memoized_fibonacci(n: int) -> int:
 
 def spell_dispatcher() -> Callable[[Any], str]:
     @singledispatch
-    def base_function(Any)
+    def base_function(var: Any):
+        return "Unknown psell type"
+    @base_function.register
+    def base_function(var: int)-> None:
+        print(f"Damage spell: {var} damage")
 
+    @base_function.register
+    def base_function(var: str) -> None:
+        print(f"Enchantment: {var}")
+
+        
