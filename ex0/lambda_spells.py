@@ -49,3 +49,33 @@ if __name__ == "__main__":
     print("\nTesting spell transformer...")
     spells = ['earthquake', 'darkness', 'freeze', 'tsunami']
     print(" ".join(spell_transformer(spells)))
+
+
+if __name__ == "__main__":
+    print("Testing artifact sorter...")
+    a = artifact_sorter([{'name': 'Kai', 'power': 94, 'element': 'wind'},
+                        {'name': 'Phoenix', 'power': 56, 'element': 'light'}])
+    print(f"{a[0]['name']} ({a[0]['power']} power) comes before{
+        a[1]["name"]} ({a[1]['power']} power)")
+    print("\nTesting spell transformer...")
+    s = spell_transformer(['freeze', 'flash', 'blizzard', 'earthquake'])
+    for i in s:
+        print(i, end=" ")
+    print("\n\n Testing power filter")
+    mages = [
+        {'name': 'Casey', 'power': 74, 'element': 'earth'},
+        {'name': 'Ember', 'power': 57, 'element': 'wind'},
+        {'name': 'Zara', 'power': 82, 'element': 'light'},
+        {'name': 'Ash', 'power': 51, 'element': 'lightning'},
+        {'name': 'Alex', 'power': 98, 'element': 'light'}
+    ]
+    p = power_filter(mages, 70)
+    mage: dict[str, object]
+    for mage in p:
+        print(mage, end=" ")
+    m = mage_stats(mages)
+
+    print("\n\nTesting mage stats")
+    print(f"max power: {m['max_power']}")
+    print(f"min power: {m['min_power']}")
+    print(f"avg power: {m['avg_power']}")

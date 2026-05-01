@@ -1,6 +1,6 @@
 import operator
 from functools import reduce, partial, lru_cache, singledispatch
-from typing import Callable
+from typing import Callable, Any
 
 def spell_reducer(spells: list[int], operation: str) -> int:
     if not spells:
@@ -38,14 +38,43 @@ def memoized_fibonacci(n: int) -> int:
 
 def spell_dispatcher() -> Callable[[Any], str]:
     @singledispatch
-    def base_function(var: Any):
-        return "Unknown psell type"
-    @base_function.register
-    def base_function(var: int)-> None:
-        print(f"Damage spell: {var} damage")
+    def dispatcher(var: Any):
+        return "Unknown spell type"
+    @dispatcher.register
+    def _(var: int)-> str:
+        return(f"Damage spell: {var} damage")
+    @dispatcher.register
+    def _(var: str) -> str:
+        return(f"Enchantment: {var}")
+    @dispatcher.register
+    def _(var: list) -> str:
+        return f"Multi-cast spell: {len(var)} spells cast"
+    return dispatcher
 
-    @base_function.register
-    def base_function(var: str) -> None:
-        print(f"Enchantment: {var}")
 
-        
+if __name__ == "__main__":
+
+    print("Testing spell reducer...")
+    spells = [10, 20, 30, 40]
+    try:
+        print("Sum:", spell_reducer(spells, "add"))
+        print("Product:", spell_reducer(spells, "mul"))
+        print("Max:", spell_reducer(spells, "max"))
+    except Exception as e:
+        print(e)
+
+    print("\nTesting memoized fibonacci...")
+
+    print("Fib(0):", memoized_fibonacci(0))
+    print("Fib(1):", memoized_fibonacci(1))
+    print("Fib(10):", memoized_fibonacci(10))
+    print("Fib(15):", memoized_fibonacci(15))
+
+    print("\nTesting spell dispatcher...")
+
+    dispatch = spell_dispatcher()
+
+    print(dispatch(21))
+    print(dispatch("fireball"))
+    print(dispatch([1, 2, 3]))
+    print(dispatch(3.14))
