@@ -2,6 +2,7 @@ import operator
 from functools import reduce, partial, lru_cache, singledispatch
 from typing import Callable, Any
 
+
 def spell_reducer(spells: list[int], operation: str) -> int:
     if not spells:
         return 0
@@ -22,38 +23,42 @@ def spell_reducer(spells: list[int], operation: str) -> int:
 
 
 def partial_enchanter(base_enchantment: Callable) -> dict[str, Callable]:
-    new_functions ={}
-    ice = partial(base_enchantment, power = 50, element = "ice")
-    fire = partial(base_enchatment, power = 50, element = "fire")
-    lightening = partial(base_enchatment, power = 50, element = "lightening")
-    new_functions ={"ice": ice, "fire": fire, "lightening": lightening}
+    new_functions = {}
+    ice = partial(base_enchantment, power=50, element="ice")
+    fire = partial(base_enchantment, power=50, element="fire")
+    lightening = partial(base_enchantment, power=50, element="lightening")
+    new_functions = {"ice": ice, "fire": fire, "lightening": lightening}
     return new_functions
+
 
 @lru_cache
 def memoized_fibonacci(n: int) -> int:
-    if n<2:
+    if n < 2:
         return 1
-    return memoized_fibonacci(n-1) + memoized_fibonacci(n-2)
+    return memoized_fibonacci(n - 1) + memoized_fibonacci(n - 2)
 
 
 def spell_dispatcher() -> Callable[[Any], str]:
     @singledispatch
     def dispatcher(var: Any):
         return "Unknown spell type"
+
     @dispatcher.register
-    def _(var: int)-> str:
-        return(f"Damage spell: {var} damage")
+    def _(var: int) -> str:
+        return f"Damage spell: {var} damage"
+
     @dispatcher.register
     def _(var: str) -> str:
-        return(f"Enchantment: {var}")
+        return f"Enchantment: {var}"
+
     @dispatcher.register
     def _(var: list) -> str:
         return f"Multi-cast spell: {len(var)} spells cast"
+
     return dispatcher
 
 
 if __name__ == "__main__":
-
     print("Testing spell reducer...")
     spells = [10, 20, 30, 40]
     try:

@@ -1,6 +1,6 @@
 from typing import Callable
 from functools import wraps
-import time 
+import time
 
 
 def spell_timer(func: Callable) -> Callable:
@@ -12,6 +12,7 @@ def spell_timer(func: Callable) -> Callable:
         end_time = time.time()
         print(f"Spell completed in {end_time - start_time:.3f} seconds")
         return returned_value
+
     return wrapper
 
 
@@ -27,7 +28,9 @@ def power_validator(min_power: int) -> Callable:
                 return func(*args, **kwargs)
             else:
                 return "Insufficient power for this spell"
+
         return wrapper
+
     return decorator
 
 
@@ -40,18 +43,21 @@ def retry_spell(max_attempts: int) -> Callable:
                     return func(*args, **kwargs)
                 except Exception:
                     if i < max_attempts:
-                        print (f"Spell failed, retrying... (attempt {i}/{max_attempts})")
+                        print("Spell failed, retrying... "
+                              f"(attempt {i}/{max_attempts})")
                     if i == max_attempts:
-                        return f"Spell casting failed after {
-                            max_attempts} attempts"
+                        return ("Spell casting failed after"
+                                f"{max_attempts} attempts")
+
         return wrapper
+
     return decorator
 
 
 class MageGuild:
     @staticmethod
     def validate_mage_name(name: str) -> bool:
-        if len(name) >=3:
+        if len(name) >= 3:
             if all(c.isalpha() or c.isspace() for c in name):
                 return True
         return False
@@ -61,11 +67,13 @@ class MageGuild:
         return f"Successfully cast {spell_name} with {power} power"
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
+
     @spell_timer
     def fireball() -> str:
         time.sleep(0.4)
         return "Fireball cast!"
+
     print("Testing spell timer...")
     result = fireball()
     print(f"Result: {result}")
